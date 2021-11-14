@@ -1,5 +1,6 @@
 package com.alinje.app.apiConnection;
 
+import com.alinje.app.Coordinates;
 import com.alinje.app.Weather;
 
 /**
@@ -7,4 +8,5 @@ import com.alinje.app.Weather;
  */
 public interface WeatherData {
     public Weather getTodaysWeather(String city);
+    public Weather getCurrentWeather(Coordinates c);
 }

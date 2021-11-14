@@ -9,6 +9,7 @@ import org.json.*;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.alinje.app.Coordinates;
 import com.alinje.app.Weather;
 
 public class OpenWeatherData implements WeatherData {
@@ -21,15 +22,19 @@ public class OpenWeatherData implements WeatherData {
      * @returns The current weather of the argumetn city.
      */
     public Weather getTodaysWeather(String city){
-        return jsonToWeather(fetchJsonFromUrl(city));
+        return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey));
     }
 
-    private JSONObject fetchJsonFromUrl(String city){
+    public Weather getCurrentWeather(Coordinates c){
+        return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?lat=" + (int)c.getYcoord() + "&lon=" + (int)c.getXcoord() + "&appid=" + apiKey));
+    }
+
+    private JSONObject fetchJsonFromUrl(String urlString){
         String weatherString = "bf";
 
         URL url;
         try {
-            url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey);
+            url = new URL(urlString);
 
 
             HttpsURLConnection con;
