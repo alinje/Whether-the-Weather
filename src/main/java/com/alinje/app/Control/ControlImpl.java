@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 
 import com.alinje.app.Coordinates;
 import com.alinje.app.Weather;
+import com.alinje.app.WorldWeather;
 import com.alinje.app.View.WeatherWindow;
 import com.alinje.app.View.WeatherWindowSwing;
 import com.alinje.app.apiConnection.OpenWeatherData;
@@ -53,7 +54,7 @@ public class ControlImpl implements Control {
         window.pack();
         window.setVisible(true);
 
-        Weather[][] temp = getMidValues();
+        Weather[][] temp = WorldWeather.getWorldWeather();
         for (Weather[] weathers : temp) {
             for (Weather weathers2 : weathers) {
                 System.out.println(weathers2.toString());
@@ -62,26 +63,5 @@ public class ControlImpl implements Control {
         }
     }
 
-    private Weather[][] getMidValues(){
-        double minX = -180;
-        double minY = -90;
-        double maxX = 80;
-        double maxY = 90;
-        double xLen = 260;
-        double yLen = 180;
 
-        Weather[][] mV = new Weather[amountPartsPoleToPole*2][amountPartsPoleToPole];
-        for (int i = 0; i < mV.length; i++) {
-            for (int j = 0; j < amountPartsPoleToPole; j++) {
-                double xPos = minX + (xLen * (i + 0.5))/(amountPartsPoleToPole * 2);
-                double yPos = minY + (yLen * (j + 0.5))/amountPartsPoleToPole;
-                Weather weather = wD.getCurrentWeather(new Coordinates(xPos, yPos));
-                mV[i][j] = weather;
-            }
-        }
-
-        System.out.println("end of mV");
-        return mV;
-
-    }
 }
