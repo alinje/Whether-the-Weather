@@ -12,6 +12,9 @@ import javax.net.ssl.HttpsURLConnection;
 import com.alinje.app.Coordinates;
 import com.alinje.app.Weather;
 
+/**
+ * Implementation of @see WeatherData.java . 
+ */
 public class OpenWeatherData implements WeatherData {
     
     //key for using the API is obtained from personal config file
@@ -19,12 +22,16 @@ public class OpenWeatherData implements WeatherData {
 
     /**
      * @param city A string representation of the target city, in local language.
-     * @returns The current weather of the argumetn city.
+     * @return The current weather of the argumetn city.
      */
     public Weather getTodaysWeather(String city){
         return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey));
     }
 
+    /**
+     * @param c Coordinates of the target city.
+     * @return The current weather of the argument city.
+     */
     public Weather getCurrentWeather(Coordinates c){
         return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?lat=" + (int)c.getYcoord() + "&lon=" + (int)c.getXcoord() + "&appid=" + apiKey));
     }

@@ -7,6 +7,9 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Swing interface
+ */
 public class WeatherWindowSwing extends JPanel implements WeatherWindow {
     private int w = 100;
     private int h = 100;
