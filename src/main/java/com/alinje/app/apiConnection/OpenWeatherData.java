@@ -25,7 +25,7 @@ public class OpenWeatherData implements WeatherData {
      * @return The current weather of the argumetn city.
      */
     public Weather getTodaysWeather(String city){
-        return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey));
+        return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric"));
     }
 
     /**
@@ -33,7 +33,7 @@ public class OpenWeatherData implements WeatherData {
      * @return The current weather of the argument city.
      */
     public Weather getCurrentWeather(Coordinates c){
-        return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?lat=" + (int)c.getYcoord() + "&lon=" + (int)c.getXcoord() + "&appid=" + apiKey));
+        return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?lat=" + (int)c.getYcoord() + "&lon=" + (int)c.getXcoord() + "&appid=" + apiKey + "&units=metric"));
     }
 
     private JSONObject fetchJsonFromUrl(String urlString){
@@ -74,11 +74,14 @@ public class OpenWeatherData implements WeatherData {
     private Weather jsonToWeather(JSONObject obj){
         Weather weather = new Weather("",4,2);
         try {
-            weather = new Weather(obj.getJSONArray("weather").getJSONObject(0).getString("main"),2,1);
+            weather = new Weather(obj.getJSONArray("weather").getJSONObject(0).getString("main"),
+                                  Double.valueOf( obj.getJSONObject("main").getDouble("humidity")),
+                                  Double.valueOf( obj.getJSONObject("main").getDouble("temp")));
         } /* catch (JSONException | NullPointerException e){
             e.printStackTrace();
         } */ //TODO fix version problem
-        catch (Exception e){
+        // if JSONobject is not as expected
+        catch (JSONException e){
             e.printStackTrace();
         }
         return weather;
