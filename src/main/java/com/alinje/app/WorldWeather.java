@@ -10,11 +10,12 @@ public class WorldWeather {
         this.worldWeathers = worldWeathers;
     }
 
-    public static WorldWeather getWorldWeather(int amountParts, WeatherData weatherData){
-            return new WorldWeather(getMidValues(amountParts, weatherData));
+
+    public static Weather[][] getWorldWeather(int xAmountParts, int yAmountParts, WeatherData weatherData){
+        return getMidValues(xAmountParts, yAmountParts, weatherData);
     }
 
-    private static Weather[][] getMidValues(int amountPartsPoleToPole, WeatherData weatherData){
+    private static Weather[][] getMidValues(int xAmountParts, int yAmountParts, WeatherData weatherData){
         double minX = -180;
         double minY = -90;
         double maxX = 80;
@@ -22,18 +23,22 @@ public class WorldWeather {
         double xLen = 260;
         double yLen = 180;
 
-        Weather[][] mV = new Weather[amountPartsPoleToPole*2][amountPartsPoleToPole];
+        Weather[][] mV = new Weather[xAmountParts][yAmountParts];
         for (int i = 0; i < mV.length; i++) {
-            for (int j = 0; j < amountPartsPoleToPole; j++) {
-                double xPos = minX + (xLen * (i + 0.5))/(amountPartsPoleToPole * 2);
-                double yPos = minY + (yLen * (j + 0.5))/amountPartsPoleToPole;
+            for (int j = 0; j < yAmountParts; j++) {
+                double xPos = minX + (xLen * (i + 0.5))/(xAmountParts * 2);
+                double yPos = minY + (yLen * (j + 0.5))/yAmountParts;
                 Weather weather = weatherData.getCurrentWeather(new Coordinates(xPos, yPos));
                 mV[i][j] = weather;
             }
         }
 
-        System.out.println("end of mV");
         return mV;
 
     }
+
+    /*
+    public Weather getWeather(int x, int y){
+
+    }*/
 }
