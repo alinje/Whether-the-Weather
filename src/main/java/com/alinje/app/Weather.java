@@ -4,17 +4,18 @@ package com.alinje.app;
  * Immutable representation of a weather state
  */
 public class Weather {
-    // TODO not actually rain mm!!
-    private final double rainMm;
+    private final double humidity;
     private final double temp;
     private final String desc;
     private final String location;
+    private final Coordinates coord;
 
-    public Weather(String desc, double rainMm, double temp, String location){
+    public Weather(String desc, double humidity, double temp, String location, Coordinates coord){
         this.desc = desc;
-        this.rainMm = rainMm;
+        this.humidity = humidity;
         this.temp = temp;
         this.location = location;
+        this.coord = coord;
     }
 
     public boolean isGrassWet(){
@@ -22,7 +23,9 @@ public class Weather {
     }
 
     public String toString(){
-        return desc + " with " + rainMm + " mm of rain and " + temp + " degrees Celsius.";
+        String weatherString = coord.toString() + ": " + temp + " degrees Celsius, with a humidity of " + humidity + "%.";
+        if (location.length() == 0) return weatherString;
+        return location + " " + weatherString;
     }
 
     public String getDesc(){

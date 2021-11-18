@@ -29,6 +29,7 @@ public class WeatherTile extends JPanel {
     public void paintComponent(Graphics g){
         g.setColor(getColor());
         g.fillRect(0, 0, w, h);
+        this.setToolTipText(weather.toString());
     }
 
     

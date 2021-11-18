@@ -40,4 +40,21 @@ public class Coordinates {
     public double getYcoord() {
         return yCoord;
     }
+
+    @Override
+    public String toString(){
+        return "(" + xCoord + "," + yCoord + ")";
+    }
+
+    @Override
+    public boolean equals (Object o){
+        System.out.println("tja");
+        Coordinates c2;
+        try {
+            c2 = (Coordinates) o;
+        } catch (ClassCastException e){
+            return false;
+        }
+        return (this.xCoord - c2.xCoord < 0.01) && (this.yCoord - c2.yCoord < 0.01);
+    }
 }
