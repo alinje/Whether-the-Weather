@@ -1,4 +1,4 @@
-package com.alinje.app.View;
+package com.alinje.app.view;
 
 public interface WeatherWindow {
     

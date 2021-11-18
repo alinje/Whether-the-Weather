@@ -1,22 +1,12 @@
-package com.alinje.app;
+package com.alinje.app.model;
 
+/**
+ * A simple representation of the geographic coordinates
+ */
 public class Coordinates {
     private final double lon;
     private final double lat;
 
-    private final double minX;
-    private final double minY;
-    private final double maxX;
-    private final double maxY;
-
-    public Coordinates(double lon, double lat, double minX, double minY, double maxX, double maxY){
-        this.lon = lon;
-        this.lat = lat;
-        this.minX = minX;
-        this.minY = minY;
-        this.maxX = maxX;
-        this.maxY = maxY;
-    }
 
     /**
      * Two given arguments default to max x and y based on the caartesian system.
@@ -24,13 +14,16 @@ public class Coordinates {
      * @param lat
      */
     public Coordinates(double lon, double lat){
-        this(lon, lat, -90, -90, 90, 90);
 
-        // TODO this is ugly
-        if (lon > 180) lon = 80;
-        if (lon < -180) lon = -180;
-        if (lat > 90) lon = 90;
-        if (lat < -90) lon = -90;
+        if (lon > 180){
+            lon = 180;
+        } else if (lon < -180) lon = -180;
+        if (lat > 90){
+            lon = 90;
+        } else if (lat < -90) lon = -90;
+
+        this.lon = lon;
+        this.lat = lat;
     }
 
     public double getXcoord() {
@@ -43,7 +36,7 @@ public class Coordinates {
 
     @Override
     public String toString(){
-        return "(" + lon + "," + lat + ")";
+        return "(" + lon + ", " + lat + ")";
     }
 
     @Override

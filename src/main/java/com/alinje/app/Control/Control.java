@@ -1,4 +1,4 @@
-package com.alinje.app.Control;
+package com.alinje.app.control;
 
 public interface Control {
     

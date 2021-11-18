@@ -1,4 +1,4 @@
-package com.alinje.app;
+package com.alinje.app.model;
 
 /**
  * Immutable representation of a weather state

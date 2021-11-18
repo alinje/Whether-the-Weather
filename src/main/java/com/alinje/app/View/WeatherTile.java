@@ -1,12 +1,11 @@
-package com.alinje.app.View;
+package com.alinje.app.view;
+
+import java.awt.Color;
+import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import com.alinje.app.Weather;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import com.alinje.app.model.Weather;
 
 public class WeatherTile extends JPanel {
 
@@ -20,8 +19,7 @@ public class WeatherTile extends JPanel {
         this.h = h;
         this.weather = weather;
 
-        //this.setPreferredSize(new Dimension(w,h));
-        //this.setMaximumSize(new Dimension(w,h));
+
         this.setBounds(0,0, w,h);
     }
     
@@ -29,7 +27,9 @@ public class WeatherTile extends JPanel {
     public void paintComponent(Graphics g){
         g.setColor(getColor());
         g.fillRect(0, 0, w, h);
+
         this.setToolTipText(weather.toString());
+
     }
 
     
@@ -51,5 +51,6 @@ public class WeatherTile extends JPanel {
                 return Color.BLACK;
         }
     }
+
 
 }

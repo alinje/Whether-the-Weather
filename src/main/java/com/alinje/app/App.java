@@ -3,17 +3,16 @@ package com.alinje.app;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import com.alinje.app.Control.Control;
-import com.alinje.app.Control.ControlImpl;
-import com.alinje.app.apiConnection.OpenWeatherData;
-import com.alinje.app.apiConnection.WeatherData;
+import com.alinje.app.control.BaseControl;
+import com.alinje.app.control.Control;
 
+/**
+ * Application entrance point.
+ * @author Aline Eikeland @alinje
+ */
 public class App {
 
     public static void main(String[] args){
-        WeatherData weatherData = new OpenWeatherData();
-        // prints current weather in Gothenburg
-        System.out.println(weatherData.getTodaysWeather("Gothenburg").toString());
 
         int w;
         int h;
@@ -31,6 +30,7 @@ public class App {
             h = 600;
         }
 
-        Control control = new ControlImpl(w,h);
+        // TODO select view here
+        Control control = new BaseControl(w,h);
     }
 }
