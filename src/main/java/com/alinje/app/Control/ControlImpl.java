@@ -1,6 +1,10 @@
 package com.alinje.app.Control;
 
 import javax.swing.JFrame;
+import javax.swing.event.MouseInputListener;
+
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -13,54 +17,63 @@ import com.alinje.app.View.WeatherWindowSwing;
 import com.alinje.app.apiConnection.OpenWeatherData;
 import com.alinje.app.apiConnection.WeatherData;
 
+import org.w3c.dom.events.MouseEvent;
+
 
 public class ControlImpl implements Control {
 
     private JFrame window;
     private WeatherData wD = new OpenWeatherData();
 
+    private int xParts = 3;
+    private int yParts = 2;
+
     //TODO default based on window size
     private int amountPartsPoleToPole = 2;
 
     public ControlImpl(int w, int h){
-        WeatherWindowSwing ww = new WeatherWindowSwing(w,h, amountPartsPoleToPole);
+        //TODO ??
+        JFrame.setDefaultLookAndFeelDecorated(false);
+        WeatherWindowSwing ww = new WeatherWindowSwing(w/2,h/2, WorldWeather.getWorldWeather(xParts, yParts, wD));
 
-        window = new JFrame("Whether the Weather");
+        //ww.setUndecorated(true);
 
         // if the window is closed down, the application should exit
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ww.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        window.setLocation(100,100);
 
-        ww.setPreferredSize(new Dimension(w,h));
-        window.add(ww);
+        ww.setPreferredSize(new Dimension(w/2,h/2));
 
-        window.addKeyListener(new KeyListener() {
+        ww.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
                 switch (keyCode){
                     case KeyEvent.VK_UP:
-                        amountPartsPoleToPole++; //TODO max size needed, break?? conflict w down?
+                        xParts++; //TODO max size needed, break?? conflict w down?
+                        yParts++;
+                        break;
                     case KeyEvent.VK_DOWN:
-                        amountPartsPoleToPole = amountPartsPoleToPole > 0 ? amountPartsPoleToPole - 1 : 0;
+                        xParts--;
+                        yParts--;
+                        break;
                     default:
                         break;
                 }
+                ww.repaint();
+                System.out.println("tjo");
                 // TODO repaint prompt
             }
             public void keyReleased(KeyEvent e) {}
             public void keyTyped(KeyEvent e) {}
         });
-        window.pack();
-        window.setVisible(true);
 
-        Weather[][] temp = WorldWeather.getWorldWeather();
-        for (Weather[] weathers : temp) {
-            for (Weather weathers2 : weathers) {
-                System.out.println(weathers2.toString());
-            }
-            
-        }
+        
+
+
+        ww.pack();
+        ww.setLocationRelativeTo(null);
+        ww.setVisible(true);
+
     }
 
 
