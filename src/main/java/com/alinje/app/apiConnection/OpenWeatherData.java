@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.InputStreamReader;
 import org.json.*;
 
@@ -16,6 +18,8 @@ import com.alinje.app.Weather;
  * Implementation of @see WeatherData.java . 
  */
 public class OpenWeatherData implements WeatherData {
+
+    Map<String, Weather> weatherBuffer = new HashMap<>();
     
     //key for using the API is obtained from personal config file
     private final String apiKey = Config.apiKey;
@@ -25,20 +29,22 @@ public class OpenWeatherData implements WeatherData {
      * @return The current weather of the argumetn city.
      */
     public Weather getTodaysWeather(String city){
-        return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric"));
+        Weather weather = jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric"));
+        return weather;
     }
 
     /**
      * @param c Coordinates of the target city.
      * @return The current weather of the argument city.
      */
-    public Weather getCurrentWeather(Coordinates c){
-        return jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?lat=" + (int)c.getYcoord() + "&lon=" + (int)c.getXcoord() + "&appid=" + apiKey + "&units=metric"));
+    public Weather getCurrentWeather(Coordinates coord){
+        weatherBuffer.computeIfAbsent(coord.toString(), (c) -> jsonToWeather(fetchJsonFromUrl("https://api.openweathermap.org/data/2.5/weather?lat=" + (int)coord.getYcoord() + "&lon=" + (int)coord.getXcoord() + "&appid=" + apiKey + "&units=metric")));
+        return weatherBuffer.get(coord.toString());
     }
 
     private JSONObject fetchJsonFromUrl(String urlString){
         String weatherString = "bf";
-
+        System.out.println("räknar!!");
         URL url;
         try {
             url = new URL(urlString);
