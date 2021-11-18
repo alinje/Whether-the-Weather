@@ -25,43 +25,41 @@ public class ControlImpl implements Control {
     private JFrame window;
     private WeatherData wD = new OpenWeatherData();
 
-    private int xParts = 3;
-    private int yParts = 2;
+    // TODO set to 6,7
+    private int lonParts = 3;
+    private int latParts = 2;
 
-    //TODO default based on window size
-    private int amountPartsPoleToPole = 2;
 
     public ControlImpl(int w, int h){
         //TODO ??
         JFrame.setDefaultLookAndFeelDecorated(false);
-        WeatherWindowSwing ww = new WeatherWindowSwing(w/2,h/2, WorldWeather.getWorldWeather(xParts, yParts, wD));
+        WeatherWindowSwing ww = new WeatherWindowSwing(w/2,h/2, WorldWeather.getWorldWeather(lonParts, latParts, wD));
 
-        //ww.setUndecorated(true);
 
         // if the window is closed down, the application should exit
         ww.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        ww.setPreferredSize(new Dimension(w/2,h/2));
+        
 
         ww.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
                 switch (keyCode){
                     case KeyEvent.VK_UP:
-                        xParts++; //TODO max size needed, break?? conflict w down?
-                        yParts++;
+                        lonParts++; //TODO max size needed, break?? conflict w down?
+                        latParts++;
                         break;
                     case KeyEvent.VK_DOWN:
-                        xParts--;
-                        yParts--;
+                        lonParts--;
+                        latParts--;
                         break;
                     default:
                         break;
                 }
-                ww.repaint();
-                System.out.println("tjo");
-                // TODO repaint prompt
+                Weather[][] weathers = WorldWeather.getWorldWeather(lonParts, latParts, wD);
+                ww.update(weathers);
+                ww.pack();
             }
             public void keyReleased(KeyEvent e) {}
             public void keyTyped(KeyEvent e) {}

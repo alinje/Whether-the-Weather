@@ -12,18 +12,21 @@ public class WorldWeatherTest {
 
     @Test
     public void testGetWorldWeather(){
-        Weather nwW = wd.getCurrentWeather(new Coordinates(-(260/6),     -(180/6)    ));
-        Weather neW = wd.getCurrentWeather(new Coordinates((260/6) , -(180/6)    ));
-        Weather swW = wd.getCurrentWeather(new Coordinates(-(260/6),     (180/6)));
-        Weather seW = wd.getCurrentWeather(new Coordinates((260/6) * 2, (180/6)));
-    
-        //WorldWeather worldWeather = WorldWeather.getWorldWeather(2, 2, wd);
+        Weather nwW = wd.getCurrentWeather(new Coordinates(-(360/4),  (180/4)));
+        Weather neW = wd.getCurrentWeather(new Coordinates((360/4),   (180/4)));
+        Weather swW = wd.getCurrentWeather(new Coordinates(-(360/4), -(180/4)));
+        Weather seW = wd.getCurrentWeather(new Coordinates((360/4),  -(180/4)));
+
         Weather[][] worldWeather = WorldWeather.getWorldWeather(2, 2, wd);
-        assertTrue( nwW.toString().equals(worldWeather[0][0].toString())
-                 && neW.toString().equals(worldWeather[0][1].toString())
-                 && swW.toString().equals(worldWeather[1][0].toString())
-                 && seW.toString().equals(worldWeather[1][1].toString())
+
+
+        assertTrue( nwW.equals(worldWeather[0][0])
+                 && neW.equals(worldWeather[0][1])
+                 && swW.equals(worldWeather[1][0])
+                 && seW.equals(worldWeather[1][1])
              );
+
+        
     }
     
 }

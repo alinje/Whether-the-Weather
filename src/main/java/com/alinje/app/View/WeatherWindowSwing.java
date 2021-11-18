@@ -1,7 +1,8 @@
 package com.alinje.app.View;
 
 import java.awt.Color;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.*;
 
 import javax.swing.*;
@@ -23,6 +24,8 @@ public class WeatherWindowSwing extends JFrame implements WeatherWindow {
 
     private BoxLayout box;
     private JLabel exitLabel;
+
+    Map<Dimension,JPanel> tileBuffer = new HashMap<>();
 
 
 
@@ -58,8 +61,8 @@ public class WeatherWindowSwing extends JFrame implements WeatherWindow {
     }
 
     public void update(Weather[][] weathers){
-    public void paint(Graphics g){
-        this.setBackground(Color.BLACK);
+        // if the map returns to this size later, there is no need to reload the map if it is in the buffer
+        //tileBuffer.put(new Dimension(weathers.length, weathers[0].length), brickPane);
         this.weathers = weathers;
 
 
@@ -70,8 +73,8 @@ public class WeatherWindowSwing extends JFrame implements WeatherWindow {
 
     private void fillWithWeatherTiles(JPanel c){
         c.removeAll();
-        GridLayout grid = new GridLayout(weathers[0].length, weathers.length);
-        c.setLayout(grid);
+        GridLayout grid = new GridLayout(weathers.length, weathers[0].length);
+        
 
         System.out.println(weathers.length);
         System.out.println(weathers[0].length);
@@ -81,13 +84,14 @@ public class WeatherWindowSwing extends JFrame implements WeatherWindow {
 
         for (int i = 0; i < weathers.length; i++) {
             for (int j = 0; j < weathers[0].length; j++) {
-                WeatherTile tile = new WeatherTile(c.getWidth()/weathers.length, c.getHeight()/weathers[0].length, weathers[i][j]);
+                WeatherTile tile = new WeatherTile(c.getWidth()/weathers[0].length, c.getHeight()/weathers.length, weathers[i][j]);
                 c.add(tile);
                 c.setVisible(true);
 
             }
         }
 
+        c.setLayout(grid);
         
         this.add(brickPane);
     }

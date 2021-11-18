@@ -53,4 +53,20 @@ public class Weather {
             return "Very hot";
         }
     }
+
+    @Override
+    public boolean equals (Object o){
+        Weather w2;
+        try {
+            w2 = (Weather) o;
+        } catch (ClassCastException e){
+            return false;
+        }
+        return this.coord.equals(w2.coord)
+            && this.humidity - w2.humidity < 0.01
+            && this.temp - w2.temp < 0.01
+            && this.location.equals(w2.location)
+            && this.desc.equals(w2.desc);
+
+    }
 }

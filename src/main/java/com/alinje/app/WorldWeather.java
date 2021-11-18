@@ -4,34 +4,41 @@ import com.alinje.app.apiConnection.WeatherData;
 
 public class WorldWeather {
 
-    private Weather[][] worldWeathers;
 
-    private WorldWeather (Weather[][] worldWeathers){
-        this.worldWeathers = worldWeathers;
+    public static Weather[][] getWorldWeather(int lonAmountParts, int latAmountParts, WeatherData weatherData){
+        return getMidValues(lonAmountParts, latAmountParts, weatherData);
     }
 
+    private static Weather[][] getMidValues(int lonAmountParts, int latAmountParts, WeatherData weatherData){
+        double minLon = -180;
+        double minLat = -90;
+        double maxLen = 180;
+        double maxLat = 90;
+        double lonLen = 360;
+        double latLen = 180;
 
-    public static Weather[][] getWorldWeather(int xAmountParts, int yAmountParts, WeatherData weatherData){
-        return getMidValues(xAmountParts, yAmountParts, weatherData);
-    }
-
-    private static Weather[][] getMidValues(int xAmountParts, int yAmountParts, WeatherData weatherData){
-        double minX = -180;
-        double minY = -90;
-        double maxX = 80;
-        double maxY = 90;
-        double xLen = 260;
-        double yLen = 180;
-
-        Weather[][] mV = new Weather[xAmountParts][yAmountParts];
-        for (int i = 0; i < mV.length; i++) {
-            for (int j = 0; j < yAmountParts; j++) {
-                double xPos = minX + (xLen * (i + 0.5))/(xAmountParts * 2);
-                double yPos = minY + (yLen * (j + 0.5))/yAmountParts;
-                Weather weather = weatherData.getCurrentWeather(new Coordinates(xPos, yPos));
+        Weather[][] mV = new Weather[latAmountParts][lonAmountParts];
+        for (int i = 0; i < latAmountParts; i++) {
+            for (int j = 0; j < lonAmountParts; j++) {
+                double lonPos = minLon + ((lonLen * (j + 0.5))/lonAmountParts);
+                double latPos = maxLat - (latLen * (i + 0.5))/latAmountParts;
+                Weather weather = weatherData.getCurrentWeather(new Coordinates(lonPos, latPos));
                 mV[i][j] = weather;
             }
         }
+
+        /*
+        Weather[][] mV = new Weather[lonAmountParts][latAmountParts];
+        for (int i = 0; i < lonAmountParts; i++) {
+            for (int j = 0; j < latAmountParts; j++) {
+                double lonPos = minLon + (lonLen * (i + 0.5))/lonAmountParts;
+                double latPos = minLat + (latLen * (j + 0.5))/latAmountParts;
+                Weather weather = weatherData.getCurrentWeather(new Coordinates(lonPos, latPos));
+                mV[i][j] = weather;
+                System.out.println(weather.toString());
+            }
+        }*/
+
 
         return mV;
 
