@@ -6,6 +6,7 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import com.alinje.app.Weather;
 
@@ -29,119 +30,80 @@ public class WeatherWindowSwing extends JFrame implements WeatherWindow {
     public WeatherWindowSwing(int w, int h, Weather[][] weathers){
 
         this.setBackground(Color.BLACK);
+        this.setPreferredSize(new Dimension(w,h));
 
-        this.setName("Whether the Weather");
+        //this.setName("Whether the Weather");
         this.setTitle("Whether the Weather");
 
 
         this.w = w;
         this.h = h;
-        //this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
-        //addTitleBar();
-        addInstructions();
+        addInstructions(brickPane);
 
-
-        //this.setBounds(FODDER, 30 + FODDER, w-(2*FODDER), h-2*FODDER-30);
-        this.weathers = weathers;
-
-        //this.setBorder(new Border); //TODO
-        brickPane.setOpaque(false);
-        brickPane.setBounds(FODDER, 30 + FODDER, w-(2*FODDER), h-2*FODDER-30);
-        //brickPane.setBackground(Color.PINK);
-
-        fillWithWeatherTiles(brickPane);
-
-
-        brickPane.setVisible(true);
-
-    }
-
-    @Override
-    public void paint(Graphics g){
-        this.setBackground(Color.BLACK);
-
-        this.setName("Whether the Weather");
-        this.setTitle("Whether the Weather");
-
-
-        this.w = w;
-        this.h = h;
-        //this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-
-        //addTitleBar();
-        addInstructions();
-
-
-        //this.setBounds(FODDER, 30 + FODDER, w-(2*FODDER), h-2*FODDER-30);
-        this.weathers = weathers;
-
-        //this.setBorder(new Border); //TODO
-        brickPane.setOpaque(false);
-        brickPane.setBounds(FODDER, 30 + FODDER, w-(2*FODDER), h-2*FODDER-30);
-        //brickPane.setBackground(Color.PINK);
-
-        fillWithWeatherTiles(brickPane);
-
-
-        brickPane.setVisible(true);
-    }
-
-    private void fillWithWeatherTiles(JPanel c){
-        GridLayout grid = new GridLayout(weathers[0].length, weathers.length);
 
         
-        //grid.setHgap(0);
-        //grid.setVgap(0);
+        this.weathers = weathers;
+
+        brickPane.setOpaque(false);
+        brickPane.setBorder(new EmptyBorder(FODDER, FODDER, FODDER, FODDER));
+        
+        brickPane.setBounds(0, 0, w-(2*FODDER), h-2*FODDER);
+
+        fillWithWeatherTiles(brickPane);
+
+
+        brickPane.setVisible(true);
+
+    }
+
+    public void update(Weather[][] weathers){
+    public void paint(Graphics g){
+        this.setBackground(Color.BLACK);
+        this.weathers = weathers;
+
+
+        fillWithWeatherTiles(brickPane);
+    }
+
+   
+
+    private void fillWithWeatherTiles(JPanel c){
+        c.removeAll();
+        GridLayout grid = new GridLayout(weathers[0].length, weathers.length);
+        c.setLayout(grid);
+
+        System.out.println(weathers.length);
+        System.out.println(weathers[0].length);
+
+
+
 
         for (int i = 0; i < weathers.length; i++) {
             for (int j = 0; j < weathers[0].length; j++) {
-                WeatherTile tile = new WeatherTile((c.getWidth())/weathers.length, (c.getHeight())/weathers[0].length, weathers[i][j]);
+                WeatherTile tile = new WeatherTile(c.getWidth()/weathers.length, c.getHeight()/weathers[0].length, weathers[i][j]);
                 c.add(tile);
                 c.setVisible(true);
+
             }
         }
 
-        c.setLayout(grid);
+        
         this.add(brickPane);
     }
 
-    private void addTitleBar(){
-        JPanel titleBar = new JPanel();
-        //titleBar.setBackground(Color.GREEN);
-        titleBar.setBounds(0, 0, w, 30);
-        //titleBar.setSize(w, 30);
-        JLabel text = new JLabel(this.getTitle());
-        text.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        titleBar.add(text);
 
-        exitLabel = new JLabel("X");
-        titleBar.add(exitLabel);
+    private void addInstructions(JPanel p){
+        JPanel instructionsBar = new JPanel();
+        instructionsBar.setOpaque(false);
+        instructionsBar.setBounds(0, 0, w, 40);
+        JLabel text = new JLabel("Press UP to HD enhance the world, press DOWN to simplify it");
+        text.setFont(new Font("Monospaced", Font.BOLD, 20));
 
-        this.add(titleBar);
-    }
+        instructionsBar.add(text);
 
-    private void addInstructions(){
-        JPanel titleBar = new JPanel();
-        titleBar.setOpaque(false);
-        titleBar.setBounds(0, 0, w, 40);
-        JLabel text = new JLabel("Press UP to HD enhance the world \n Press DOWN to simplify it");
-        text.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        titleBar.add(text);
 
-        exitLabel = new JLabel("X");
-        titleBar.add(exitLabel);
-
-        this.add(titleBar);
-    }
-
-    /*
-    public void addExitCommand(MouseListener ml) {
-        exitLabel.addMouseListener(ml);
-    }*/
-
-    public JLabel getExitLabel(){
-        return exitLabel;
+        this.add(instructionsBar);
     }
 
 
