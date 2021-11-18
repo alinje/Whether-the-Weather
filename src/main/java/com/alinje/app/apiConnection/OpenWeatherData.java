@@ -72,11 +72,12 @@ public class OpenWeatherData implements WeatherData {
     }
 
     private Weather jsonToWeather(JSONObject obj){
-        Weather weather = new Weather("",4,2);
+        Weather weather = new Weather("",4,2,"");
         try {
             weather = new Weather(obj.getJSONArray("weather").getJSONObject(0).getString("main"),
                                   Double.valueOf( obj.getJSONObject("main").getDouble("humidity")),
-                                  Double.valueOf( obj.getJSONObject("main").getDouble("temp")));
+                                  Double.valueOf( obj.getJSONObject("main").getDouble("temp")),
+                                  obj.getString("name"));
         } /* catch (JSONException | NullPointerException e){
             e.printStackTrace();
         } */ //TODO fix version problem
